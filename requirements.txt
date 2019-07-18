@@ -2,3 +2,4 @@ cython
 flask_graphql
 graphene
 python-dotenv
+requests
