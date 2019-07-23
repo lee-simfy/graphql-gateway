@@ -1,6 +1,12 @@
+import aiohttp
 import graphene
 import requests
 from graphene import ObjectType
+
+
+async def fetch(session, url):
+    async with session.get(url) as response:
+        return await response.json()
 
 
 class Geo(ObjectType):
@@ -30,11 +36,26 @@ class User(ObjectType):
     address = graphene.Field(Address)
     phone = graphene.String()
     website = graphene.String()
+    random = graphene.String()
     company = graphene.Field(Company)
-    # full_name = String()
+    company1 = graphene.Field(Company)
 
-    # def resolve_full_name(parent, info):
-    #     return f"{parent.first_name} {parent.last_name}"
+    def resolve_random(self, info):
+        return 'random'
+
+    async def resolve_company1(self, info):
+        async with aiohttp.ClientSession() as session:
+            data = await fetch(session, 'https://jsonplaceholder.typicode.com/users')
+            data = await fetch(session, 'https://jsonplaceholder.typicode.com/users')
+            data = await fetch(session, 'https://jsonplaceholder.typicode.com/users')
+            data = await fetch(session, 'https://jsonplaceholder.typicode.com/users')
+            data = await fetch(session, 'https://jsonplaceholder.typicode.com/users')
+        # data = requests.get('https://jsonplaceholder.typicode.com/users').json()
+        # data = requests.get('https://jsonplaceholder.typicode.com/users').json()
+        # data = requests.get('https://jsonplaceholder.typicode.com/users').json()
+        # data = requests.get('https://jsonplaceholder.typicode.com/users').json()
+        # data = requests.get('https://jsonplaceholder.typicode.com/users').json()
+        return data[0]
 
 
 class Query(graphene.ObjectType):
